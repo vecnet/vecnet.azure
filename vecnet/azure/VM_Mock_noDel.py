@@ -39,8 +39,6 @@ def send_mail( send_from, send_to, subject, text, files=[], server="localhost", 
     smtp.sendmail(send_from, send_to, msg.as_string())
     smtp.quit()
 
-    print "emailed\n"
-
 def upload_results():
     z = zipfile.ZipFile(user_info["sim"]+'_Results.zip', "w", zipfile.ZIP_DEFLATED)
 
@@ -52,9 +50,7 @@ def upload_results():
     z.close()
 
     result = 'r-' + machine_name
-    blob_service.put_block_blob_from_path(container_name, result, 'c:/Users/Public/Sim/Output.zip')
-
-    print "uploaded\n"
+    blob_service.put_block_blob_from_path(container_name, result, 'c:/Users/Public/Sim/' + user_info["sim"] + '_Results.zip')
 
 def download_input():
     blob_service.get_blob_to_path(container_name, machine_name, 'c:/Users/Public/Sim/Input.zip')
@@ -63,9 +59,6 @@ def download_input():
     z = zipfile.ZipFile('Input.zip', 'r')
     z.extractall('Input')
     z.close()
-
-    print "downloaded\n"
-
 
 ########################################################################################################################
 ##                                                        MAIN                                                        ##
@@ -97,17 +90,17 @@ try:
     f = "C:/Users/Public/Sim/Input/AzureUserInfo.pickle"
     user_info = pickle.load(file(f))
 
-    output.write('Mock model executed correctly.')
-    output.close()
+    output.write('Mock model executed correctly.')    
     print "download input"
+    
 except:
     output.write('Could not download input from the cloud.\n')
-    output.close()
+    print "download failed"
+
+########### Upload Results ##########
+upload_results()
 
 try:
-    ########### Upload Results ##########
-    upload_results()
-
     ########### Email Results ###########
     send_mail( send_from   = 'vecnet.results@gmail.com',
                send_to     = user_info["email"],
@@ -121,8 +114,6 @@ try:
                username    = 'vecnet.results',
                password    = 'Lgfak_1994',
                isTls       = True)
-    print "sent mail"
-
-############# Exit Script #############
+    print "emailed"
 except:
     print "unable to send email"

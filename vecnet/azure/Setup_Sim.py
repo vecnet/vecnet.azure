@@ -140,7 +140,7 @@ except:
 UI = True
 
 if len(sys.argv) > 1:
-    use_string = 'Setup_Sim.py [-h] [-new] username [ -d | [-ncln] -sE INPUT_FOLDER SIMULATION_NAME N_CORES| [-ncln] ' \
+    use_string = 'Setup_Sim.py [-h] [-new email] username [ -d | [-ncln] -sE INPUT_FOLDER SIMULATION_NAME N_CORES| [-ncln] ' \
                  '-sOM INPUT_FOLDER SIMULATION_NAME N_CORES | [-ncln] -m INPUT_FOLDER SIMULATION_NAME N_CORES | -r SIMULATION_NAME ]'
     parser = argparse.ArgumentParser(usage=use_string)
 

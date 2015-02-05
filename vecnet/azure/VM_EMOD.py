@@ -31,7 +31,7 @@ def delete_vm():
                 else:
                     sms.delete_role(service_name=username, deployment_name=username, role_name=vm_name)
                     break
-
+                
 def send_mail( send_from, send_to, subject, text, files=[], server="localhost", port=587, username='', password='', isTls=True):
     msg = MIMEMultipart()
     msg['From'] = send_from
@@ -66,7 +66,10 @@ def upload_results():
     z.close()
 
     result = 'r-' + vm_name
-    blob_service.put_block_blob_from_path(container_name, result, 'c:/Users/Public/Sim/' + user_info["sim"] + '_Results.zip')
+    try:
+        blob_service.put_block_blob_from_path(container_name, result, 'c:/Users/Public/Sim/' + user_info["sim"] + '_Results.zip')
+    except:
+        print "could not upload"
 
 
 def download_input():
@@ -133,8 +136,8 @@ try:
                username    = 'vecnet.results',
                password    = 'Lgfak_1994',
                isTls       = True)
+    print "sent mail"
+except:
+    print "mail failed"
 
-############# Exit Script #############
-finally:
-    delete_vm()
-
+delete_vm()

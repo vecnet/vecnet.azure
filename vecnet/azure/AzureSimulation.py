@@ -100,22 +100,21 @@ class AzureSimulation:
         ######### Create OS Hard Disk #########
         if DEL:
             if sim_type == "EMOD":
-                image_name = 'emod-email-v2-os-2015-01-27' #EMOD-OS-os-2014-07-09'
+                image_name = 'emod-email-v3-os-2015-02-05' #EMOD-OS-os-2014-07-09'
             elif sim_type == "OM":
-                image_name = 'mock-model2-os-2014-07-10'
+                image_name = 'mock-model2-os-2014-07-10' #TODO Make OM image
             elif sim_type == "mock":
-                image_name = 'mock-model2-os-2014-07-10'
+                image_name = 'mock-email-os-2015-02-03' #'mock-model2-os-2014-07-10'
             else:
                 stderr.write('Error')
                 exit(1)
         else:
             if sim_type == "EMOD":
-                image_name = 'emod-email-noDel-v2-os-2015-01-27' #'no-delete-EMOD2-os-2014-09-19'
+                image_name = 'emod-email-noDel-v3-os-2015-02-04' #'no-delete-EMOD2-os-2014-09-19'
             elif sim_type == "OM":
-                image_name = 'no-delete-Mock-os-2014-09-17'
+                image_name = 'om-email-noDel-v2-os-2015-02-05' #'no-delete-Mock-os-2014-09-17' #TODO Make OM-noDel image
             elif sim_type == "mock":
-                image_name = 'mock-email-noDel-os-2015-01-27' #'no-delete-Mock-os-2014-09-17'
-                print "mock"
+                image_name = 'mock-email-noDel-v4-os-2015-02-03' #'no-delete-Mock-os-2014-09-17'
             else:
                 stderr.write('Error')
                 exit(1)

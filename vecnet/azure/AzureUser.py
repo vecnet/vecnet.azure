@@ -258,7 +258,7 @@ class AzureUser:
                             stderr.write('An error occurred while downloading your results.')
                             exit(1)
 
-                        AzureSimulation.extract_files(self.curr_sim.name + '_results')
+                        AzureTools.extract_files(self.curr_sim.name + '_results', self.username)
                         results_in = True
                         break
 

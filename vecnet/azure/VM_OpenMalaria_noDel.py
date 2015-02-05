@@ -61,6 +61,12 @@ def download_input():
     z.extractall()
     z.close()
 
+    for f in os.listdir('C:/Users/Public/Sim'):
+        if ".xml" in f:
+            return f
+
+    return 0
+
 
 ########################################################################################################################
 ##                                                        MAIN                                                        ##
@@ -89,20 +95,23 @@ blob_service = BlobService(
     account_name='portalvhdsd3d1018q65tg3',
     account_key='cAT5jbypcHrN7sbW/CHgGFDGSvOpyhw6VE/yHubS799egkHfvPeeXuK7uzc6H2C8ZU1ALiyOFEZkjzWuSyfc+A==')
 
-#try:
-download_input()
-f = "C:/Users/Public/Sim/AzureUserInfo.pickle"
+scenario = 0    # xml file input
 
-user_info = pickle.load(file(f))
-'''
+try:
+    scenario = download_input()
+    f = "C:/Users/Public/Sim/AzureUserInfo.pickle"
+    user_info = pickle.load(file(f))
+
 except:
     output.write('Could not download input from the cloud.\n')
-    output.close()
-    upload_results()
-'''
+
 ########### Run Simulation ##########
-call(["openMalaria.exe", "-s",  "scenario.xml", "-O"], stdout=output)
-output.close()
+if(scenario == 0):
+    output.write("No valid input")
+    output.close()
+else:
+    call(["openMalaria.exe", "-s",  scenario, "-o", "Output"], stdout=output)
+    output.close()
 
 try:
     ########### Upload Results ##########
