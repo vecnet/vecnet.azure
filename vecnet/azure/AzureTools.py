@@ -48,12 +48,15 @@ def zip_files(user, inputs):
         z.write("AzureUserInfo.pickle")
 
         # If there is one input file...
-        if os.path.isfile(inputs_folder_name):
-            z.write(inputs, inputs_folder_name)
+        if os.path.isfile(inputs):
+            print inputs +"\n"
+            os.chdir(inputs_dir)
+            z.write(inputs_folder_name)
         # If there are multiple input files/folders in the given folder...
         else:
             for base, dirs, files in os.walk(inputs):
                 for f in files:
+                    print f + "\n"
                     fn = os.path.join(base, f)
                     z.write(fn, f)
 
@@ -62,8 +65,15 @@ def zip_files(user, inputs):
         z = zipfile.ZipFile("Inputs.zip", "a", zipfile.ZIP_DEFLATED)
         z.write("AzureUserInfo.pickle")
 
-
     z.close()
+
+    print "In archive...\n"
+    print zipfile.ZipFile.namelist(z)
+
+    '''
+    for f in os.walk("Inputs.zip"):
+        print "\t" + f + "\n"
+    '''
     return "C:/Users/" + comp_user + "/Simulations/" + user + "/Inputs.zip"
 
 def extract_files(file_name, username):

@@ -112,7 +112,7 @@ class AzureSimulation:
             if sim_type == "EMOD":
                 image_name = 'emod-email-noDel-v3-os-2015-02-04' #'no-delete-EMOD2-os-2014-09-19'
             elif sim_type == "OM":
-                image_name = 'om-email-noDel-v2-os-2015-02-05' #'no-delete-Mock-os-2014-09-17' #TODO Make OM-noDel image
+                image_name = 'om-email-noDel-v3-os-2015-02-10' #'no-delete-Mock-os-2014-09-17' #TODO Make OM-noDel image
             elif sim_type == "mock":
                 image_name = 'mock-email-noDel-v4-os-2015-02-03' #'no-delete-Mock-os-2014-09-17'
             else:

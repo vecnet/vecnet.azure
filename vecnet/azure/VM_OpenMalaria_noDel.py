@@ -110,7 +110,7 @@ if(scenario == 0):
     output.write("No valid input")
     output.close()
 else:
-    call(["openMalaria.exe", "-s",  scenario, "-o", "Output"], stdout=output)
+    call(["openMalaria.exe", "-s",  scenario, "-ctsout", "Output/ctsout.txt"], stdout=output)
     output.close()
 
 try:
