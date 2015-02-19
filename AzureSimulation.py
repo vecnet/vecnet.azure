@@ -2,15 +2,18 @@ __author__ = 'Natalie'
 
 import hashlib
 import os
-import AzureTools
 import pickle
-from AzureTools              import comp_user
-from azure                   import *
-from azure.servicemanagement import *
-from azure.storage           import BlobService
 from re                      import search
 from time                    import time, sleep
 from sys                     import stderr
+
+from azure                   import *
+from azure.servicemanagement import *
+from azure.storage           import BlobService
+
+import AzureTools
+from AzureTools import comp_user
+
 
 
 # Create service management object
@@ -112,7 +115,7 @@ class AzureSimulation:
             if sim_type == "EMOD":
                 image_name = 'emod-email-noDel-v3-os-2015-02-04' #'no-delete-EMOD2-os-2014-09-19'
             elif sim_type == "OM":
-                image_name = 'om-email-noDel-v3-os-2015-02-10' #'no-delete-Mock-os-2014-09-17' #TODO Make OM-noDel image
+                image_name = 'om-email-noDel-v5-os-2015-02-17' #'no-delete-Mock-os-2014-09-17'
             elif sim_type == "mock":
                 image_name = 'mock-email-noDel-v4-os-2015-02-03' #'no-delete-Mock-os-2014-09-17'
             else:

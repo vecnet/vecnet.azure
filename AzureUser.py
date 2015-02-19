@@ -1,15 +1,15 @@
 __author__ = 'Natalie'
 
-
 import os
-import AzureTools
-import AzureSimulation
 from re              import search
 from time            import sleep
 from sys             import stderr
-from AzureTools      import comp_user
-from AzureSimulation import sms, blob_service
 from copy            import copy
+
+import AzureTools
+import AzureSimulation
+from AzureTools import comp_user
+from AzureSimulation import sms, blob_service
 
 
 class AzureUser:

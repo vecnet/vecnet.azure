@@ -3,15 +3,17 @@
 __author__ = 'Natalie Sanders'
 
 import argparse
-import AzureUserPool
 import pickle
 import os
+from time                    import sleep
+from sys                     import stderr
+
 from azure                   import *
 from azure.servicemanagement import *
 from azure.storage           import BlobService
-from time                    import sleep
-from sys                     import stderr
-from AzureTools              import comp_user
+
+import AzureUserPool
+from AzureTools import comp_user
 
 
 def menu():

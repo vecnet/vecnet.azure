@@ -1,14 +1,17 @@
 __author__ = 'Natalie'
 
 import os
-import AzureUser
-from azure           import *
 from time            import sleep
 from sys             import stderr
-from AzureSimulation import sms, blob_service
-from AzureTools      import comp_user
 from copy            import copy
+
+from azure           import *
 from validate_email  import validate_email
+
+import AzureUser
+from AzureSimulation import sms, blob_service
+from AzureTools import comp_user
+
 
 class AzureUserPool:
     def __init__(self):
