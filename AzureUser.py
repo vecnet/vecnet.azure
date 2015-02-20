@@ -62,6 +62,8 @@ class AzureUser:
                 self.user_info["username"] = self.username
                 self.user_info["email"]    = self.email
                 self.user_info["sim"]      = self.curr_sim.name
+                self.user_info["sim_type"] = sim_type
+                self.user_info["delete"]   = DEL
 
                 self.curr_sim.upload_input(self.user_info)
                 success = self.curr_sim.simulation(self.username, sim_type, ARG, DEL)

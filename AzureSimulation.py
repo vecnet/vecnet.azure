@@ -1,3 +1,5 @@
+from settings_local import ACCOUNT_NAME, ACCOUNT_KEY, SUBSCRIPTION_ID, STORAGE_ACCOUNT, VM_PASSWORD, VM_USERNAME
+
 __author__ = 'Natalie'
 
 import hashlib
@@ -17,14 +19,14 @@ from AzureTools import comp_user
 
 
 # Create service management object
-subscription_id = 'a9401417-cb08-4e67-bc2a-613f49b46f8a'
+subscription_id = SUBSCRIPTION_ID
 certificate_path = 'CURRENT_USER\\my\\AzureCertificate'
 sms = ServiceManagementService(subscription_id, certificate_path)
 
 # Create blob service object
 blob_service = BlobService(
-    account_name='portalvhdsd3d1018q65tg3',
-    account_key='cAT5jbypcHrN7sbW/CHgGFDGSvOpyhw6VE/yHubS799egkHfvPeeXuK7uzc6H2C8ZU1ALiyOFEZkjzWuSyfc+A==')
+    account_name=ACCOUNT_NAME,
+    account_key=ACCOUNT_KEY)
 
 class AzureSimulation:
     def __init__(self):
@@ -122,7 +124,7 @@ class AzureSimulation:
                 stderr.write('Error')
                 exit(1)
 
-        storage_account = 'portalvhdsd3d1018q65tg3'
+        storage_account = STORAGE_ACCOUNT
         blob = self.vm_id + '-blob.vhd'
         media_link = "https://" + storage_account + ".blob.core.windows.net/vhds/" + blob
 
@@ -131,8 +133,8 @@ class AzureSimulation:
         ###### Windows VM configuration #####
         windows_config = WindowsConfigurationSet(
             computer_name=self.vm_id,
-            admin_password="Bbsitdon-1994",
-            admin_username="Natalie")
+            admin_password=VM_PASSWORD,
+            admin_username=VM_USERNAME)
 
         windows_config.domain_join = None
         windows_config.win_rm = None

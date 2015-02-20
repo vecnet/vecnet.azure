@@ -1,3 +1,5 @@
+from settings_local import SUBSCRIPTION_ID, ACCOUNT_NAME, ACCOUNT_KEY, EMAIL_USERNAME, EMAIL_PASSWORD
+
 __author__ = 'Natalie Sanders'
 
 from azure.servicemanagement import *
@@ -78,7 +80,7 @@ split = vm_name.split('-')
 username = '-'.join(split[:-1])
 container_name = '-'.join(split[:-1]).lower()
 
-subscription_id = 'a9401417-cb08-4e67-bc2a-613f49b46f8a'
+subscription_id = SUBSCRIPTION_ID
 certificate_path = 'CURRENT_USER\\my\\AzureCertificate'
 
 # Import service management certificate
@@ -92,8 +94,8 @@ output = open("Output/stdout.txt", "wb")
 
 ####### Download Input Files ########
 blob_service = BlobService(
-    account_name='portalvhdsd3d1018q65tg3',
-    account_key='cAT5jbypcHrN7sbW/CHgGFDGSvOpyhw6VE/yHubS799egkHfvPeeXuK7uzc6H2C8ZU1ALiyOFEZkjzWuSyfc+A==')
+    account_name=ACCOUNT_NAME,
+    account_key=ACCOUNT_KEY)
 
 scenario = 0    # xml file input
 
@@ -127,8 +129,8 @@ try:
                files       = ['c:/Users/Public/Sim/' + user_info["sim"] + '_Results.zip'],
                server      = "smtp.gmail.com",
                port        = 587,
-               username    = 'vecnet.results',
-               password    = 'Lgfak_1994',
+               username    = EMAIL_USERNAME,
+               password    = EMAIL_PASSWORD,
                isTls       = True)
 
 ############# Exit Script #############

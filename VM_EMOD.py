@@ -1,3 +1,5 @@
+from settings_local import EMAIL_PASSWORD, EMAIL_USERNAME, ACCOUNT_NAME, ACCOUNT_KEY, SUBSCRIPTION_ID
+
 __author__ = 'Natalie Sanders'
 
 from azure.servicemanagement import *
@@ -73,6 +75,7 @@ def upload_results():
 
 
 def download_input():
+
     blob_service.get_blob_to_path(container_name, vm_name, 'c:/Users/Public/Sim/Inputs.zip')
     chdir("C:/Users/Public/Sim")
     z = zipfile.ZipFile('Inputs.zip', 'r')
@@ -90,7 +93,7 @@ split = vm_name.split('-')
 username = '-'.join(split[:-1])
 container_name = '-'.join(split[:-1]).lower()
 
-subscription_id = 'a9401417-cb08-4e67-bc2a-613f49b46f8a'
+subscription_id = SUBSCRIPTION_ID
 certificate_path = 'CURRENT_USER\\my\\AzureCertificate'
 
 # Import service management certificate
@@ -104,8 +107,8 @@ output = open("Output/stdout.txt", "wb")
 
 ####### Download Input Files ########
 blob_service = BlobService(
-    account_name='portalvhdsd3d1018q65tg3',
-    account_key='cAT5jbypcHrN7sbW/CHgGFDGSvOpyhw6VE/yHubS799egkHfvPeeXuK7uzc6H2C8ZU1ALiyOFEZkjzWuSyfc+A==')
+    account_name=ACCOUNT_NAME,
+    account_key=ACCOUNT_KEY)
 
 try:
     download_input()
@@ -133,8 +136,8 @@ try:
                files       = ['c:/Users/Public/Sim/' + user_info["sim"] + '_Results.zip'],
                server      = "smtp.gmail.com",
                port        = 587,
-               username    = 'vecnet.results',
-               password    = 'Lgfak_1994',
+               username    = EMAIL_USERNAME,
+               password    = EMAIL_PASSWORD,
                isTls       = True)
     print "sent mail"
 except:

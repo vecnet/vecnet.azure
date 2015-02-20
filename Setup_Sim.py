@@ -1,4 +1,5 @@
 #!/usr/bin/python
+from settings_local import ACCOUNT_NAME, ACCOUNT_KEY, SUBSCRIPTION_ID
 
 __author__ = 'Natalie Sanders'
 
@@ -121,14 +122,14 @@ else:
 
 
 # Create service management object
-subscription_id = 'a9401417-cb08-4e67-bc2a-613f49b46f8a'
+subscription_id = SUBSCRIPTION_ID
 certificate_path = 'CURRENT_USER\\my\\AzureCertificate'
 sms = ServiceManagementService(subscription_id, certificate_path)
 
 # Create blob service object
 blob_service = BlobService(
-    account_name='portalvhdsd3d1018q65tg3',
-    account_key='cAT5jbypcHrN7sbW/CHgGFDGSvOpyhw6VE/yHubS799egkHfvPeeXuK7uzc6H2C8ZU1ALiyOFEZkjzWuSyfc+A==')
+    account_name=ACCOUNT_NAME,
+    account_key=ACCOUNT_KEY)
 
 # Test the service management object
 try:
