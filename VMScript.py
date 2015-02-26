@@ -6,6 +6,7 @@ import zipfile
 import pickle
 import smtplib
 import logging
+import subprocess
 from azure.servicemanagement import *
 from azure.storage import *
 from subprocess import call
@@ -15,19 +16,16 @@ from email.mime.base import MIMEBase
 from email.mime.text import MIMEText
 from email.utils import formatdate
 from email import encoders
-from settings_local import EMAIL_PASSWORD, EMAIL_USERNAME, ACCOUNT_NAME, ACCOUNT_KEY, SUBSCRIPTION_ID
 
 global user_info
 
 
 def end_sequence():
 
-    output.close()
-
     if user_info["delete"]:
         delete_vm()
 
-    exit()
+    sys.exit
 
 
 def delete_vm():
@@ -96,7 +94,7 @@ def upload_results():
 
 def download_input():
 
-    if not os.path.exist('c:/Users/Public/Sim') or not os.path.isdir('c:/Users/Public/Sim'):
+    if not os.path.exists('c:/Users/Public/Sim') or not os.path.isdir('c:/Users/Public/Sim'):
         os.mkdir('c:/Users/Public/Sim')
 
     blob_service.get_blob_to_path(container_name, vm_name, 'c:/Users/Public/Sim/Inputs.zip')
@@ -111,6 +109,19 @@ def download_input():
 
     return 0
 
+class StreamToLogger(object):
+   """
+   Fake file-like stream object that redirects writes to a logger instance.
+   """
+   def __init__(self, logger, log_level=logging.INFO):
+      self.logger = logger
+      self.log_level = log_level
+      self.linebuf = ''
+ 
+   def write(self, buf):
+      for line in buf.rstrip().splitlines():
+         self.logger.log(self.log_level, line.rstrip())
+
 
 ########################################################################################################################
 ##                                                        MAIN                                                        ##
@@ -122,7 +133,7 @@ split = vm_name.split('-')
 username = '-'.join(split[:-1])
 container_name = '-'.join(split[:-1]).lower()
 
-subscription_id = SUBSCRIPTION_ID
+subscription_id = 'a9401417-cb08-4e67-bc2a-613f49b46f8a'
 certificate_path = 'CURRENT_USER\\my\\AzureCertificate'
 
 ##### Import service management certificate ####
@@ -132,15 +143,27 @@ sms = ServiceManagementService(subscription_id, certificate_path)
 
 ###### Redirect stdout and stderr to File ######
 chdir('C:/Users/Public/Sim')
-output = open("Output/stdout.txt", "wb")
-logger = logging.getLogger("Output/stdout.txt")
-sys.stderr = output
-sys.stdout = output
+
+logging.basicConfig(
+    level=logging.DEBUG,
+    format='%(asctime)s:%(levelname)s:%(name)s:%(message)s',
+    filename="Output/stdout.log",
+    filemode='a')
+
+stdout_logger = logging.getLogger('STDOUT')
+sl = StreamToLogger(stdout_logger, logging.INFO)
+sys.stdout = sl
+ 
+stderr_logger = logging.getLogger('STDERR')
+sl = StreamToLogger(stderr_logger, logging.ERROR)
+sys.stderr = sl
+
+f = open("Output/stdout.log")
 
 ############# Download Input Files #############
 blob_service = BlobService(
-    account_name=ACCOUNT_NAME,
-    account_key=ACCOUNT_KEY)
+    account_name='portalvhdsd3d1018q65tg3',
+    account_key='cAT5jbypcHrN7sbW/CHgGFDGSvOpyhw6VE/yHubS799egkHfvPeeXuK7uzc6H2C8ZU1ALiyOFEZkjzWuSyfc+A==')
 
 try:
     scenario = download_input()
@@ -157,18 +180,19 @@ sim_type = user_info["sim_type"]
 
 ################ Run Simulation ################
 if sim_type == "EMOD":
-    os.stdout.write("Executing EMOD simulation...\n")
+    sys.stdout.write("Executing EMOD simulation...\n")
     call(["eradication.exe", "-C",  "config.json", "-O", "Output"])
-if sim_type == "OM":
-    os.stdout.write("Executing Open Malaria simulation...\n")
+elif sim_type == "OM":
+    sys.stdout.write("Executing Open Malaria simulation...\n")
     if scenario == 0:
-        os.stderr.write("No valid input for xml scenario\n")
+        sys.stderr.write("No valid input for xml scenario\n")
     else:
-        call(["openMalaria.exe", "-s",  scenario, "-ctsout", "Output/ctsout.txt"])
-if sim_type == "mock":
-    os.stdout.write("Executing Mock Model...\n")
+        call(["openMalaria.exe", "-s",  scenario, "-ctsout", "Output/ctsout.txt"], stdout = f, stderr = f)
+        
+elif sim_type == "mock":
+    sys.stdout.write("Executing Mock Model...\n")
 else:
-    os.stderr.write(sim_type + " is not a valid simulation\n")
+    sys.stderr.write(sim_type + " is not a valid simulation\n")
 
 
 ################# Send Results #################
@@ -182,8 +206,8 @@ try:
               files=['c:/Users/Public/Sim/' + user_info["sim"] + '_Results.zip'],
               server="smtp.gmail.com",
               port=587,
-              username=EMAIL_USERNAME,
-              password=EMAIL_PASSWORD,
+              username='vecnet.results',
+              password='Lgfak_1994',
               isTls=True)
     sys.stdout.write("Emailed results.\n")
 
@@ -191,18 +215,7 @@ except:
     sys.stderr.write('Could not email results to user.\n')
     logger.exception("Email Results: ")
 
-    # Try to upload results as normal
-    try:
-        upload_results()
-        sys.stdout.write("Uploaded results to cloud.\n")
-        end_sequence()
-
-    except:
-        sys.stderr.write('Could not upload results to the cloud.\n')
-        logger.exception("Upload Input: ")
-        end_sequence()
-
-# If all goes well emailing, also try uploading results
+# Also try uploading results
 try:
     upload_results()
     sys.stdout.write("Uploaded results to cloud.\n")
@@ -210,7 +223,6 @@ try:
 except:
     sys.stderr.write('Could not upload results to the cloud.\n')
     logger.exception("Upload Input: ")
-    end_sequence()
 
 ########## Cleanup Sequence of Script ##########
 end_sequence()
