@@ -1,3 +1,5 @@
+from settings_local import ACCOUNT_NAME, ACCOUNT_KEY, SUBSCRIPTION_ID, EMAIL_PASSWORD, EMAIL_USERNAME, STORAGE_ACCOUNT
+
 __author__ = 'Natalie Sanders'
 
 import os
@@ -133,7 +135,7 @@ split = vm_name.split('-')
 username = '-'.join(split[:-1])
 container_name = '-'.join(split[:-1]).lower()
 
-subscription_id = 'a9401417-cb08-4e67-bc2a-613f49b46f8a'
+subscription_id = SUBSCRIPTION_ID
 certificate_path = 'CURRENT_USER\\my\\AzureCertificate'
 
 ##### Import service management certificate ####
@@ -162,8 +164,8 @@ f = open("Output/stdout.log")
 
 ############# Download Input Files #############
 blob_service = BlobService(
-    account_name='portalvhdsd3d1018q65tg3',
-    account_key='cAT5jbypcHrN7sbW/CHgGFDGSvOpyhw6VE/yHubS799egkHfvPeeXuK7uzc6H2C8ZU1ALiyOFEZkjzWuSyfc+A==')
+    account_name=ACCOUNT_NAME,
+    account_key=ACCOUNT_KEY)
 
 try:
     scenario = download_input()
@@ -172,7 +174,7 @@ try:
 
 except:
     sys.stdout.write('Could not download and/or initialize input.\n')
-    logger.exception("Download Input: ")
+    stderr_logger.exception("Download Input: ")
     end_sequence()
 
 ######### Determine Simulation to Run ##########
@@ -206,14 +208,14 @@ try:
               files=['c:/Users/Public/Sim/' + user_info["sim"] + '_Results.zip'],
               server="smtp.gmail.com",
               port=587,
-              username='vecnet.results',
-              password='Lgfak_1994',
+              username=EMAIL_USERNAME,
+              password=EMAIL_PASSWORD,
               isTls=True)
     sys.stdout.write("Emailed results.\n")
 
 except:
     sys.stderr.write('Could not email results to user.\n')
-    logger.exception("Email Results: ")
+    stderr_logger.exception("Email Results: ")
 
 # Also try uploading results
 try:
@@ -222,7 +224,7 @@ try:
 
 except:
     sys.stderr.write('Could not upload results to the cloud.\n')
-    logger.exception("Upload Input: ")
+    stderr_logger.exception("Upload Input: ")
 
 ########## Cleanup Sequence of Script ##########
 end_sequence()
