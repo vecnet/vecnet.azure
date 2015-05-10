@@ -1,4 +1,4 @@
-from settings_local import EMAIL_PASSWORD, EMAIL_USERNAME, ACCOUNT_NAME, ACCOUNT_KEY, SUBSCRIPTION_ID
+from settings_local import EMAIL_PASSWORD, EMAIL_USERNAME, STORAGE_ACCOUNT_NAME, STORAGE_ACCOUNT_KEY, SUBSCRIPTION_ID
 
 __author__ = 'Natalie Sanders'
 
@@ -107,8 +107,8 @@ output = open("Output/stdout.txt", "wb")
 
 ####### Download Input Files ########
 blob_service = BlobService(
-    account_name=ACCOUNT_NAME,
-    account_key=ACCOUNT_KEY)
+    account_name=STORAGE_ACCOUNT_NAME,
+    account_key=STORAGE_ACCOUNT_KEY)
 
 try:
     download_input()

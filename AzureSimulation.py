@@ -1,4 +1,4 @@
-from settings_local import ACCOUNT_NAME, ACCOUNT_KEY, SUBSCRIPTION_ID, STORAGE_ACCOUNT, VM_PASSWORD, VM_USERNAME
+from settings_local import STORAGE_ACCOUNT_NAME, STORAGE_ACCOUNT_KEY, SUBSCRIPTION_ID, VM_PASSWORD, VM_USERNAME
 
 __author__ = 'Natalie'
 
@@ -25,8 +25,8 @@ sms = ServiceManagementService(subscription_id, certificate_path)
 
 # Create blob service object
 blob_service = BlobService(
-    account_name=ACCOUNT_NAME,
-    account_key=ACCOUNT_KEY)
+    account_name=STORAGE_ACCOUNT_NAME,
+    account_key=STORAGE_ACCOUNT_KEY)
 
 class AzureSimulation:
     def __init__(self):
@@ -124,7 +124,7 @@ class AzureSimulation:
                 stderr.write('Error')
                 exit(1)
 
-        storage_account = STORAGE_ACCOUNT
+        storage_account = STORAGE_ACCOUNT_NAME
         blob = self.vm_id + '-blob.vhd'
         media_link = "https://" + storage_account + ".blob.core.windows.net/vhds/" + blob
 

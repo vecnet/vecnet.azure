@@ -1,4 +1,4 @@
-from settings_local import ACCOUNT_NAME, ACCOUNT_KEY, SUBSCRIPTION_ID, EMAIL_PASSWORD, EMAIL_USERNAME, STORAGE_ACCOUNT
+from settings_local import STORAGE_ACCOUNT_NAME, STORAGE_ACCOUNT_KEY, SUBSCRIPTION_ID, EMAIL_PASSWORD, EMAIL_USERNAME
 
 __author__ = 'Natalie Sanders'
 
@@ -164,8 +164,8 @@ f = open("Output/stdout.log")
 
 ############# Download Input Files #############
 blob_service = BlobService(
-    account_name=ACCOUNT_NAME,
-    account_key=ACCOUNT_KEY)
+    account_name=STORAGE_ACCOUNT_NAME,
+    account_key=STORAGE_ACCOUNT_KEY)
 
 try:
     scenario = download_input()

@@ -1,5 +1,5 @@
 #!/usr/bin/python
-from settings_local import ACCOUNT_NAME, ACCOUNT_KEY, SUBSCRIPTION_ID
+from settings_local import STORAGE_ACCOUNT_KEY, STORAGE_ACCOUNT_KEY, SUBSCRIPTION_ID
 
 __author__ = 'Natalie Sanders'
 
@@ -128,8 +128,8 @@ sms = ServiceManagementService(subscription_id, certificate_path)
 
 # Create blob service object
 blob_service = BlobService(
-    account_name=ACCOUNT_NAME,
-    account_key=ACCOUNT_KEY)
+    account_name=STORAGE_ACCOUNT_NAME,
+    account_key=STORAGE_ACCOUNT_KEY)
 
 # Test the service management object
 try:
